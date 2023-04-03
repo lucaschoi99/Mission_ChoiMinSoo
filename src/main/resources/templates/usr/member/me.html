@@ -1,0 +1,20 @@
+<html layout:decorate="~{layout}">
+
+<head>
+    <title>내 정보</title>
+</head>
+
+<body>
+
+<main layout:fragment="main">
+    <div>번호 : <span th:text="${@requestData.member.id}"></span></div>
+    <div>이름 : <span th:text="${@requestData.member.username}"></span></div>
+    <div>가입날짜 : <span th:text="${#temporals.format(@requestData.member.createDate, 'yyyy-MM-dd HH:mm')}"></span></div>
+    <div>수정날짜 : <span th:text="${#temporals.format(@requestData.member.modifyDate, 'yyyy-MM-dd HH:mm')}"></span></div>
+</main>
+
+
+</body>
+
+</html>
+
