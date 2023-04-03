@@ -1,10 +1,10 @@
-# RingMyBell
+# Mission Project
 
 ## 프로젝트 개요
 
-서비스명 : `RingMyBell`
+[comment]: <> (서비스명 : `RingMyBell`)
 
-<!-- 도메인 : ringmybell.ai -->
+[comment]: <> (도메인 : ringmybell.ai)
 
 - Instagram ID 기반 익명호감표시 서비스
 - Instagram ID 기반 인기투표 서비스
