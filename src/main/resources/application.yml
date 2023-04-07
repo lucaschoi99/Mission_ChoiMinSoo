@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: dev, oauth
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,39 +11,6 @@ spring:
     username: root
     password: motica99
 
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            clientId: b0bb33983ded2f76cb8605531a3ee9f5
-            scope:
-            client-name: Kakao
-            authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8082/login/oauth2/code/kakao
-            client-authentication-method: POST
-
-          google:
-            client-id: 892600007816-j4mog5ba52sbgli4h2233lkra3nmnm7g.apps.googleusercontent.com
-            client-secret: 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
-            scope:
-              - email
-              - profile
-            redirect-uri: http://localhost:8082/login/oauth2/code/google
-            client-name: Google
-
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id
-
-          google:
-            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
-            token-uri: https://oauth2.googleapis.com/token
-            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
-            user-name-attribute: sub
   jpa:
     hibernate:
       ddl-auto: create-drop
