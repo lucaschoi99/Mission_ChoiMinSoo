@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface LikeInfoRepository extends JpaRepository<LikeInfo, Integer> {
+public interface LikeInfoRepository extends JpaRepository<LikeInfo, Long> {
     List<LikeInfo> findByFromInstaMemberId(Long fromInstaMemberId);
 }

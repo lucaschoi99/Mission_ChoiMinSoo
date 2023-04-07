@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,10 @@ import java.util.List;
 public class LikeInfoService {
     private final LikeInfoRepository likeInfoRepository;
     private final InstaMemberService instaMemberService;
+
+    public Optional<LikeInfo> findById(Long id) {
+        return likeInfoRepository.findById(id);
+    }
 
     @Transactional
     public ResponseData<LikeInfo> like(Member member, String username, int attractiveTypeCode) {
@@ -45,5 +50,19 @@ public class LikeInfoService {
 
     public List<LikeInfo> findByFromInstaMemberId(Long fromInstaMemberId) {
         return likeInfoRepository.findByFromInstaMemberId(fromInstaMemberId);
+    }
+
+    public boolean matches(LikeInfo likeInfo, Member user) {
+        if (user.getInstaMember() != null) {
+            if (likeInfo.getFromInstaMember().getId().equals(user.getInstaMember().getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Transactional
+    public void delete(LikeInfo likeInfo) {
+        likeInfoRepository.delete(likeInfo);
     }
 }
