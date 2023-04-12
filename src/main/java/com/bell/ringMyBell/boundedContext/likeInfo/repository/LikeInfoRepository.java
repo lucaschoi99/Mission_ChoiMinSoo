@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface LikeInfoRepository extends JpaRepository<LikeInfo, Long> {
     List<LikeInfo> findByFromInstaMemberId(Long fromInstaMemberId);
+    List<LikeInfo> findByFromInstaMemberIdAndToInstaMemberId(Long fromInstaMemberId, Long toInstaMemeberId);
 }
