@@ -54,12 +54,12 @@ public class LikeInfoService {
     }
 
     private ResponseData<LikeInfo> businessCaseException(Member member, String username, int attractiveTypeCode, InstaMember toInstaMember) {
-        List<LikeInfo> pairs = findByFromInstaMemberIdAndToInstaMemberId(member.getInstaMember().getId(), toInstaMember.getId());
+        Optional<LikeInfo> pair = findByFromInstaMemberIdAndToInstaMemberId(member.getInstaMember().getId(), toInstaMember.getId());
         int sendLikesSize = findByFromInstaMemberId(member.getInstaMember().getId()).size();
 
         // 중복 호감 표시 제한
-        if (!pairs.isEmpty()) {
-            LikeInfo firstPair = pairs.get(0);
+        if (pair.isPresent()) {
+            LikeInfo firstPair = pair.get();
             int originalTypeCode = firstPair.getAttractiveTypeCode();
             String originalTypeName = firstPair.getAttractiveTypeDisplayName();
 
@@ -83,7 +83,7 @@ public class LikeInfoService {
         return likeInfoRepository.findByFromInstaMemberId(fromInstaMemberId);
     }
 
-    public List<LikeInfo> findByFromInstaMemberIdAndToInstaMemberId(Long fromInstaMemberId, Long toInstaMemberId) {
+    public Optional<LikeInfo> findByFromInstaMemberIdAndToInstaMemberId(Long fromInstaMemberId, Long toInstaMemberId) {
         return likeInfoRepository.findByFromInstaMemberIdAndToInstaMemberId(fromInstaMemberId, toInstaMemberId);
     }
 
