@@ -48,4 +48,8 @@ public class LikeInfo {
             default -> "능력";
         };
     }
+
+    public void changeTypeCode(int code) {
+        this.attractiveTypeCode = code;
+    }
 }

@@ -21,7 +21,7 @@
                 <span class="toInstaMember_username" th:text="${info.toInstaMember.username}"></span>
                 <span class="toInstaMember_attractiveTypeDisplayName"
                       th:text="${info.attractiveTypeDisplayName}"></span>
-                <a th:href="@{|delete/${info.id}|}" onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</a>
+                <a th:href="@{|delete/${info.id}|}" onclick="return confirm('정말로 삭제하시겠습니까?');" style="color: red;">삭제</a>
             </li>
         </ul>
     </th:block>
