@@ -2,35 +2,8 @@ package com.bell.ringMyBell.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public class Ut {
-    public static class time {
-        public static String diffFormat1Human(LocalDateTime time1, LocalDateTime time2) {
-            String suffix = time1.isAfter(time2) ? "전" : "후";
-
-            // 두개의 시간의 차이를 초로 환산
-            long diff = Math.abs(ChronoUnit.SECONDS.between(time1, time2));
-
-            long diffSeconds = diff % 60; // 초 부분만
-            long diffMinutes = diff / (60) % 60; // 분 부분만
-            long diffHours = diff / (60 * 60) % 24; // 시간 부분만
-            long diffDays = diff / (60 * 60 * 24); // 나머지는 일 부분으로
-
-            StringBuilder sb = new StringBuilder();
-
-            if (diffDays > 0) sb.append(diffDays).append("일 ");
-            if (diffHours > 0) sb.append(diffHours).append("시간 ");
-            if (diffMinutes > 0) sb.append(diffMinutes).append("분 ");
-            if (diffSeconds > 0) sb.append(diffSeconds).append("초 ");
-
-            if (sb.isEmpty()) sb.append("1초 ");
-
-            return sb.append(suffix).toString();
-        }
-    }
-
     public static class url {
         public static String encode(String str) {
             try {
