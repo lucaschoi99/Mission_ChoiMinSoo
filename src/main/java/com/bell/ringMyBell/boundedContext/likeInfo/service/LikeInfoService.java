@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -64,5 +65,42 @@ public class LikeInfoService {
     @Transactional
     public void delete(LikeInfo likeInfo) {
         likeInfoRepository.delete(likeInfo);
+    }
+
+    @Transactional
+    public ResponseData<LikeInfo> canCancel(Member actor, LikeInfo likeablePerson) {
+        if (likeablePerson == null) return ResponseData.of("F-1", "이미 취소되었습니다.");
+
+        // 수행자의 인스타계정 번호
+        long actorInstaMemberId = actor.getInstaMember().getId();
+        // 삭제 대상의 작성자(호감표시한 사람)의 인스타계정 번호
+        long fromInstaMemberId = likeablePerson.getFromInstaMember().getId();
+
+        if (actorInstaMemberId != fromInstaMemberId) {
+            return ResponseData.of("F-2", "취소할 권한이 없습니다.");
+        }
+
+        if (!likeablePerson.isModifyUnlocked()) {
+            return ResponseData.of("F-3", "아직 취소할 수 없습니다. %s에는 가능합니다.".formatted(likeablePerson.getModifyUnlockDateRemainStrHuman()));
+        }
+
+        return ResponseData.of("S-1", "취소가 가능합니다.");
+    }
+
+    @Transactional
+    public ResponseData<LikeInfo> canModify(Member actor, LikeInfo likeablePerson) {
+        if (!actor.hasConnectedInstaMember()) {
+            return ResponseData.of("F-1", "먼저 본인의 인스타그램 아이디를 입력해주세요.");
+        }
+
+        InstaMember fromInstaMember = actor.getInstaMember();
+
+        if (!Objects.equals(likeablePerson.getFromInstaMember().getId(), fromInstaMember.getId())) {
+            return ResponseData.of("F-2", "해당 호감표시에 대해서 사유변경을 수행할 권한이 없습니다.");
+        }
+
+        if (!likeablePerson.isModifyUnlocked()) return ResponseData.of("F-3", "아직 호감사유변경을 할 수 없습니다. %s에는 가능합니다.".formatted(likeablePerson.getModifyUnlockDateRemainStrHuman()));
+
+        return ResponseData.of("S-1", "호감사유변경이 가능합니다.");
     }
 }
