@@ -1,6 +1,8 @@
 package com.bell.ringMyBell.boundedContext.likeInfo.entity;
 
+import com.bell.ringMyBell.base.response.ResponseData;
 import com.bell.ringMyBell.boundedContext.instaMember.entity.InstaMember;
+import com.bell.ringMyBell.util.Ut;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,6 +21,9 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Getter
 public class LikeInfo {
+
+    private LocalDateTime modifyUnlockDate;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -52,4 +57,5 @@ public class LikeInfo {
     public void changeTypeCode(int code) {
         this.attractiveTypeCode = code;
     }
+
 }

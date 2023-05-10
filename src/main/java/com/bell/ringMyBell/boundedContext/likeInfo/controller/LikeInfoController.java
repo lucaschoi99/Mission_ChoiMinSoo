@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/likeInfo")
@@ -78,6 +80,62 @@ public class LikeInfoController {
             return requestData.redirectWithMsg("/likeInfo/list", "삭제 권한이 존재하지 않습니다.");
         }
         return requestData.redirectWithMsg("/likeInfo/list", "존재하지 않는 정보입니다.");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String showModify(@PathVariable Long id, Model model) {
+        LikeInfo likeablePerson = likeInfoService.findById(id).orElseThrow();
+
+        ResponseData<LikeInfo> canModifyRsData = likeInfoService.canModify(requestData.getMember(), likeablePerson);
+
+        if (canModifyRsData.isFail()) return requestData.historyBack(canModifyRsData);
+
+        model.addAttribute("likeablePerson", likeablePerson);
+        return "usr/likeInfo/modify";
+    }
+
+    @GetMapping("/list")
+    public String showList(Model model, String gender, @RequestParam(defaultValue = "0") int attractiveTypeCode, @RequestParam(defaultValue = "1") int sortCode) {
+        InstaMember instaMember = requestData.getMember().getInstaMember();
+        // 인스타 인증 여부 체크
+        if (instaMember != null) {
+            Stream<LikeInfo> likeablePeopleStream = (Stream<LikeInfo>) instaMember;
+
+            if (gender != null) {
+                likeablePeopleStream = likeablePeopleStream.filter();
+            }
+
+            if (attractiveTypeCode != 0) {
+                likeablePeopleStream = likeablePeopleStream.filter();
+            }
+
+            switch (sortCode) {
+                case 1:
+                    likeablePeopleStream = likeablePeopleStream.sorted();
+                    break;
+                case 2:
+                    likeablePeopleStream = likeablePeopleStream.sorted();
+                    break;
+                case 3:
+                    likeablePeopleStream = likeablePeopleStream.sorted();
+                    break;
+                case 4:
+                    likeablePeopleStream = likeablePeopleStream.sorted();
+                    break;
+                case 5:
+                    likeablePeopleStream = likeablePeopleStream.sorted();
+                    break;
+                case 6:
+                    likeablePeopleStream = likeablePeopleStream.sorted();
+                    break;
+
+            }
+
+            List<LikeInfo> likeInfos = likeablePeopleStream.collect(Collectors.toList());
+            model.addAttribute("likeInfo", likeInfos);
+        }
+        return "usr/likeInfo/list";
     }
 
 
