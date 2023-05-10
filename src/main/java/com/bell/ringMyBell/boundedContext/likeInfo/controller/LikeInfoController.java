@@ -80,6 +80,19 @@ public class LikeInfoController {
         return requestData.redirectWithMsg("/likeInfo/list", "존재하지 않는 정보입니다.");
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String showModify(@PathVariable Long id, Model model) {
+        LikeInfo likeablePerson = likeInfoService.findById(id).orElseThrow();
+
+        ResponseData<LikeInfo> canModifyRsData = likeInfoService.canModify(requestData.getMember(), likeablePerson);
+
+        if (canModifyRsData.isFail()) return requestData.historyBack(canModifyRsData);
+
+        model.addAttribute("likeablePerson", likeablePerson);
+        return "usr/likeInfo/modify";
+    }
+
 
 
 }
