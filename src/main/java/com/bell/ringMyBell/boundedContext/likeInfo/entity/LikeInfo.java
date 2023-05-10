@@ -58,30 +58,4 @@ public class LikeInfo {
         this.attractiveTypeCode = code;
     }
 
-    public boolean isModifyUnlocked() {
-        return modifyUnlockDate.isBefore(LocalDateTime.now());
-    }
-
-    // 초 단위에서 올림 해주세요.
-    public String getModifyUnlockDateRemainStrHuman() {
-        return Ut.time.diffFormat1Human(LocalDateTime.now(), modifyUnlockDate);
-    }
-
-    public ResponseData<LikeInfo> updateAttractionTypeCode(int attractiveTypeCode) {
-        if (this.attractiveTypeCode == attractiveTypeCode) {
-            return ResponseData.of("F-1", "이미 설정되었습니다.");
-        }
-
-        this.attractiveTypeCode = attractiveTypeCode;
-
-        return ResponseData.of("S-1", "성공");
-    }
-
-    public String getAttractiveTypeDisplayNameWithIcon() {
-        return switch (attractiveTypeCode) {
-            case 1 -> "<i class=\"fa-solid fa-person-rays\"></i>";
-            case 2 -> "<i class=\"fa-regular fa-face-smile\"></i>";
-            default -> "<i class=\"fa-solid fa-people-roof\"></i>";
-        } + "&nbsp;" + getAttractiveTypeDisplayName();
-    }
 }
